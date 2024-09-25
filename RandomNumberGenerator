@@ -1,0 +1,82 @@
+public class Main {
+    public static void main(String[] args) {
+        GeneratorFrame frame = new GeneratorFrame();
+    }
+}
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
+
+public class GeneratorFrame extends JFrame implements ActionListener {
+//importing essentials
+    JFrame frame = new JFrame();
+    JButton buttongenerate;
+    JLabel labelnumber;
+    JTextField minimum;
+    JTextField maximum;
+    JButton buttonsubmit;
+    int minumumnumber = 0;
+    int maximumnumber = 0;
+    Random number = new Random();
+    int randomnumber;
+    GeneratorFrame(){
+//frame settings
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(null);
+        frame.setSize(250,250);
+//generate button settings
+        buttongenerate = new JButton();
+        buttongenerate.setBounds(35,120, 150, 50);
+        buttongenerate.setText("GENERATE");
+        buttongenerate.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        buttongenerate.setFocusable(false);
+        buttongenerate.addActionListener(this);
+//output settings
+        labelnumber = new JLabel();
+        labelnumber.setText(String.valueOf(randomnumber));
+        labelnumber.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        labelnumber.setBounds(100,0,100,100);
+        labelnumber.setOpaque(true);
+//minimum number
+        minimum = new JTextField();
+        minimum.setText(null);
+        minimum.setBounds(35,100,35,20);
+
+//maximum number
+        maximum = new JTextField();
+        maximum.setText(null);
+        maximum.setBounds(90,100,35,20);
+//saving minimum and maximum numbers
+        buttonsubmit = new JButton();
+        buttonsubmit.setBounds(130,100, 55, 20);
+        buttonsubmit.setText("SUBMIT");
+        buttonsubmit.setFont(new Font("Times New Roman", Font.PLAIN, 9));
+        buttonsubmit.setMargin(new Insets(10,1,10,1));
+        buttonsubmit.setFocusable(false);
+        buttonsubmit.addActionListener(this);
+//adding everything to the frame
+        frame.add(buttonsubmit);
+        frame.add(maximum);
+        frame.add(minimum);
+        frame.add(labelnumber);
+        frame.add(buttongenerate);
+        frame.setVisible(true);
+
+    }
+//button actions
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == buttongenerate){
+            randomnumber = number.nextInt(maximumnumber - minumumnumber + 1) + minumumnumber;
+            labelnumber.setText(String.valueOf(randomnumber));
+        } else if (e.getSource() == buttonsubmit) {
+            minumumnumber = Integer.parseInt(minimum.getText());
+            maximumnumber = Integer.parseInt(maximum.getText());
+            //System.out.println(minumumnumber);
+            //System.out.println(maximumnumber);
+        }
+    }
+}
