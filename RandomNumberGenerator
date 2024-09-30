@@ -11,54 +11,79 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class GeneratorFrame extends JFrame implements ActionListener {
-//importing essentials
+
     JFrame frame = new JFrame();
+    ImageIcon iconTitle = new ImageIcon("title.png");
     JButton buttongenerate;
     JLabel labelnumber;
     JTextField minimum;
     JTextField maximum;
-    JButton buttonsubmit;
-    int minumumnumber = 0;
-    int maximumnumber = 0;
     Random number = new Random();
     int randomnumber;
+    JLabel labelErrorMessage;
+    JLabel labelmin;
+    JLabel labelmax;
+    Color blackColor = Color.decode("#1C1C1C");
+    Color orangeColor = Color.decode("#FF9500");
+    Color whiteColor = Color.decode("#D4D4D2");
+
     GeneratorFrame(){
-//frame settings
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setSize(250,250);
-//generate button settings
+        frame.setTitle("Random Number Generator");
+        frame.setIconImage(iconTitle.getImage());
+        frame.getContentPane().setBackground(blackColor);
+        frame.setResizable(false);
+
         buttongenerate = new JButton();
-        buttongenerate.setBounds(35,120, 150, 50);
+        buttongenerate.setBounds(35,130, 150, 50);
         buttongenerate.setText("GENERATE");
-        buttongenerate.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        buttongenerate.setFont(new Font("Monospaced", Font.BOLD, 20));
+        buttongenerate.setBackground(orangeColor);
+        buttongenerate.setForeground(whiteColor);
         buttongenerate.setFocusable(false);
         buttongenerate.addActionListener(this);
-//output settings
+
         labelnumber = new JLabel();
         labelnumber.setText(String.valueOf(randomnumber));
-        labelnumber.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        labelnumber.setFont(new Font("Monospaced", Font.BOLD, 20));
+        labelnumber.setForeground(whiteColor);
         labelnumber.setBounds(100,0,100,100);
-        labelnumber.setOpaque(true);
-//minimum number
+
+        labelmin = new JLabel();
+        labelmin.setBounds(35,100,35, 20);
+        labelmin.setText("Min: ");
+        labelmin.setFont(new Font("Monospaced", Font.BOLD, 10));
+        labelmin.setForeground(whiteColor);
+        labelmin.setVisible(true);
+
         minimum = new JTextField();
         minimum.setText(null);
-        minimum.setBounds(35,100,35,20);
+        minimum.setBounds(60,100,50,20);
 
-//maximum number
+        labelmax = new JLabel();
+        labelmax.setBounds(112,100,35, 20);
+        labelmax.setText("Max: ");
+        labelmax.setFont(new Font("Monospaced", Font.BOLD, 10));
+        labelmax.setForeground(whiteColor);
+        labelmax.setVisible(true);
+
         maximum = new JTextField();
         maximum.setText(null);
-        maximum.setBounds(90,100,35,20);
-//saving minimum and maximum numbers
-        buttonsubmit = new JButton();
-        buttonsubmit.setBounds(130,100, 55, 20);
-        buttonsubmit.setText("SUBMIT");
-        buttonsubmit.setFont(new Font("Times New Roman", Font.PLAIN, 9));
-        buttonsubmit.setMargin(new Insets(10,1,10,1));
-        buttonsubmit.setFocusable(false);
-        buttonsubmit.addActionListener(this);
-//adding everything to the frame
-        frame.add(buttonsubmit);
+        maximum.setBounds(137,100,50,20);
+
+        labelErrorMessage = new JLabel();
+        labelErrorMessage.setBounds(20,170,250, 35);
+        labelErrorMessage.setText(null);
+        labelErrorMessage.setFont(new Font("MonoSpaced", Font.ITALIC, 9));
+        labelErrorMessage.setForeground(whiteColor);
+        labelErrorMessage.setVisible(false);
+
+        frame.add(labelmin);
+        frame.add(labelmax);
+        frame.add(labelErrorMessage);
         frame.add(maximum);
         frame.add(minimum);
         frame.add(labelnumber);
@@ -66,17 +91,30 @@ public class GeneratorFrame extends JFrame implements ActionListener {
         frame.setVisible(true);
 
     }
-//button actions
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == buttongenerate){
-            randomnumber = number.nextInt(maximumnumber - minumumnumber + 1) + minumumnumber;
-            labelnumber.setText(String.valueOf(randomnumber));
-        } else if (e.getSource() == buttonsubmit) {
-            minumumnumber = Integer.parseInt(minimum.getText());
-            maximumnumber = Integer.parseInt(maximum.getText());
-            //System.out.println(minumumnumber);
-            //System.out.println(maximumnumber);
+            try {
+                int min = Integer.parseInt(minimum.getText());
+                int max = Integer.parseInt(maximum.getText());
+
+                if (min >= max){
+                    labelErrorMessage.setText("Min. sayı max. sayıdan büyük olamaz!");
+                    labelErrorMessage.setVisible(true);
+                }else{
+                    randomnumber = number.nextInt(Integer.parseInt(maximum.getText())
+                            - Integer.parseInt((minimum.getText())) + 1)
+                            + Integer.parseInt((minimum.getText()));
+                    labelnumber.setText(String.valueOf(randomnumber));
+                    labelErrorMessage.setVisible(false);
+
+                }
+            }catch (NumberFormatException exception){
+                labelErrorMessage.setText("Lütfen geçerli bir 'sayı' giriniz!");
+                labelErrorMessage.setVisible(true);
+            }
+
         }
     }
 }
