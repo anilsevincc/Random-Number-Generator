@@ -1,5 +1,4 @@
 This is an app that generates a random number between two certain numbers that you will choose.
-Updated version will be available soon.
-There are some exception issues, like adding negative numbers or sylables.
+Exceptions handled, visual updates added.
 
-![image](https://github.com/user-attachments/assets/57e77fe7-fe6f-44be-9ce3-367824865be5)
+![image](https://github.com/user-attachments/assets/165d6dab-0e52-4113-a1dd-f4c9f422d0e1)
