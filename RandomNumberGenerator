@@ -4,10 +4,12 @@ public class Main {
     }
 }
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GeneratorFrame extends JFrame implements ActionListener {
@@ -26,6 +28,11 @@ public class GeneratorFrame extends JFrame implements ActionListener {
     Color blackColor = Color.decode("#1C1C1C");
     Color orangeColor = Color.decode("#FF9500");
     Color whiteColor = Color.decode("#D4D4D2");
+    ArrayList<Integer> previousnumbers = new ArrayList<Integer>(5);
+    int previousnumberscount = 12;
+    JPanel panelPrevious;
+    JLabel labelPreviousNumbers;
+
 
     GeneratorFrame(){
 
@@ -81,6 +88,18 @@ public class GeneratorFrame extends JFrame implements ActionListener {
         labelErrorMessage.setForeground(whiteColor);
         labelErrorMessage.setVisible(false);
 
+        panelPrevious = new JPanel();
+        panelPrevious.setBounds(5,10,225,20);
+        panelPrevious.setBackground(blackColor);
+        panelPrevious.setLayout(null);
+
+        labelPreviousNumbers = new JLabel();
+        labelPreviousNumbers.setBounds(0,0,225,20);
+        labelPreviousNumbers.setForeground(whiteColor);
+
+
+        panelPrevious.add(labelPreviousNumbers);
+        frame.add(panelPrevious);
         frame.add(labelmin);
         frame.add(labelmax);
         frame.add(labelErrorMessage);
@@ -107,6 +126,16 @@ public class GeneratorFrame extends JFrame implements ActionListener {
                             - Integer.parseInt((minimum.getText())) + 1)
                             + Integer.parseInt((minimum.getText()));
                     labelnumber.setText(String.valueOf(randomnumber));
+                    if (previousnumbers.size() == previousnumberscount)
+                    {
+                        previousnumbers.remove(previousnumberscount - 1);
+                        previousnumbers.add(0,randomnumber);
+                        labelPreviousNumbers.setText(String.valueOf(previousnumbers));
+                    }
+                    else {
+                        previousnumbers.add(0,randomnumber);
+                        labelPreviousNumbers.setText(String.valueOf(previousnumbers));
+                    }
                     labelErrorMessage.setVisible(false);
 
                 }
